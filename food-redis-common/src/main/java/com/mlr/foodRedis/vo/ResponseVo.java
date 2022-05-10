@@ -9,6 +9,9 @@ import lombok.NoArgsConstructor;
 import org.springframework.validation.BindingResult;
 import java.util.Objects;
 
+/**
+ * @author manurodgers
+ */
 @Data
 @Builder
 @AllArgsConstructor
@@ -18,31 +21,46 @@ public class ResponseVo<T> {
   private Integer status;
   private String msg;
   private T data;
+  private long timestamp;
 
   public static <T> ResponseVo<T> success(String msg) {
-    return ResponseVo.<T>builder().msg(msg).status(ResponseEnum.SUCCESS.getCode()).build();
+    return ResponseVo.<T>builder()
+        .msg(msg)
+        .status(ResponseEnum.SUCCESS.getCode())
+        .timestamp(System.currentTimeMillis())
+        .build();
   }
 
   public static <T> ResponseVo<T> success(T data) {
-    return ResponseVo.<T>builder().status(ResponseEnum.SUCCESS.getCode()).data(data).build();
+    return ResponseVo.<T>builder()
+        .status(ResponseEnum.SUCCESS.getCode())
+        .data(data)
+        .timestamp(System.currentTimeMillis())
+        .build();
   }
 
   public static <T> ResponseVo<T> success() {
     return ResponseVo.<T>builder()
         .status(ResponseEnum.SUCCESS.getCode())
-        .msg(ResponseEnum.SUCCESS.getMessage())
+        .msg(ResponseEnum.SUCCESS.getDescription())
+        .timestamp(System.currentTimeMillis())
         .build();
   }
 
   public static <T> ResponseVo<T> error(ResponseEnum responseEnum) {
     return ResponseVo.<T>builder()
-        .msg(responseEnum.getMessage())
+        .msg(responseEnum.getDescription())
         .status(responseEnum.getCode())
+        .timestamp(System.currentTimeMillis())
         .build();
   }
 
   public static <T> ResponseVo<T> error(ResponseEnum responseEnum, String msg) {
-    return ResponseVo.<T>builder().msg(msg).status(responseEnum.getCode()).build();
+    return ResponseVo.<T>builder()
+        .msg(msg)
+        .status(responseEnum.getCode())
+        .timestamp(System.currentTimeMillis())
+        .build();
   }
 
   public static <T> ResponseVo<T> error(ResponseEnum responseEnum, BindingResult bindingResult) {
@@ -52,6 +70,7 @@ public class ResponseVo<T> {
                 + " "
                 + Objects.requireNonNull(bindingResult.getFieldError()).getDefaultMessage())
         .status(responseEnum.getCode())
+        .timestamp(System.currentTimeMillis())
         .build();
   }
 }

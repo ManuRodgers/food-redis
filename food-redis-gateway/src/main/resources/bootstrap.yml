@@ -1,32 +1,45 @@
-#---
 server:
-  port: 7100
+  port: 7000
   servlet:
     context-path: /food-redis-gateway
 spring:
   application:
     name: food-redis-gateway
+  profiles:
+    active: dev
   cloud:
     nacos:
       server-addr: 127.0.0.1:8848
       discovery:
         enabled: true
-        namespace: 280ce01b-5e35-48ff-aa7e-969254ed19fc
+        namespace: 7ee84c2d-7013-4a3c-bc29-dfcaee29be55
+        group: FOOD-REDIS
         metadata:
           management:
             context-path: ${server.servlet.context-path}/actuator
       config:
         file-extension: yaml
-        namespace: 280ce01b-5e35-48ff-aa7e-969254ed19fc
+        namespace: 7ee84c2d-7013-4a3c-bc29-dfcaee29be55
+        group: FOOD-REDIS
+        shared-configs[0]:
+          dataId: gateway.yaml
+          group: FOOD-REDIS
+          refresh: true
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+      routes:
+        - id: food-redis-user
+          uri: lb://food-redis-user
+          predicates:
+            - Path=/${server.servlet.context-path}/food-redis-user/**
+          filters:
+            - StripPrefix=1
   main:
     allow-bean-definition-overriding: true  # 因为将来会引入很多依赖, 难免有重名的 bean
-# 这个地方独立配置, 是网关的数据, 代码 GatewayConfig.java 中读取被监听
-nacos:
-  gateway:
-    route:
-      config:
-        data-id: food-redis-gateway
-        group: food-redis
+    web-application-type: reactive
 management:
   endpoints:
     web:
@@ -35,3 +48,5 @@ management:
   endpoint:
     health:
       show-details: always
+
+

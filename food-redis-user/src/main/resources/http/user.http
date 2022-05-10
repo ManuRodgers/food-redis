@@ -1,0 +1,5 @@
+### GET User By Id
+GET  http://localhost:7000/food-redis-gateway/food-redis-user/food-redis-user/user/2
+Accept: application/json
+
+

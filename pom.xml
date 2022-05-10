@@ -7,10 +7,130 @@
     <groupId>com.mlr</groupId>
     <artifactId>food-redis</artifactId>
     <version>1.0-SNAPSHOT</version>
-
+    <modules>
+        <module>food-redis-admin</module>
+        <module>food-redis-gateway</module>
+        <module>food-redis-common</module>
+        <module>food-redis-user</module>
+    </modules>
+    <!--    说明是主工程， 默认是 jar 包-->
+    <packaging>pom</packaging>
     <properties>
-        <maven.compiler.source>17</maven.compiler.source>
-        <maven.compiler.target>17</maven.compiler.target>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <spring-boot-version>2.3.12.RELEASE</spring-boot-version>
+        <spring-cloud-version>Hoxton.SR12</spring-cloud-version>
+        <spring-cloud-alibaba-version>2.2.6.RELEASE</spring-cloud-alibaba-version>
+        <lombok-version>1.18.16</lombok-version>
+        <spring-boot-admin-version>2.2.0</spring-boot-admin-version>
+        <commons-lang-version>3.11</commons-lang-version>
+        <commons-collections4-version>4.4</commons-collections4-version>
+        <swagger-starter-version>2.1.5-RELEASE</swagger-starter-version>
+        <hutool-version>5.6.0</hutool-version>
+        <guava-version>31.1-jre</guava-version>
+        <mysql-connector-java-version>8.0.21</mysql-connector-java-version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
-    
+
+    <!-- 集中定义依赖，不引入 -->
+    <dependencyManagement>
+        <dependencies>
+            <!-- spring boot 依赖 -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${spring-boot-version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <!-- spring cloud 依赖 -->
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud-version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <!-- spring cloud alibaba依赖 -->
+            <dependency>
+                <groupId>com.alibaba.cloud</groupId>
+                <artifactId>spring-cloud-alibaba-dependencies</artifactId>
+                <version>${spring-cloud-alibaba-version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <!-- lombok 依赖 -->
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>${lombok-version}</version>
+            </dependency>
+            <!-- common-lang3 依赖 -->
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>${commons-lang-version}</version>
+            </dependency>
+            <!-- commons-collections4 依赖 -->
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-collections4</artifactId>
+                <version>${commons-collections4-version}</version>
+            </dependency>
+            <!-- swagger 依赖 -->
+            <dependency>
+                <groupId>com.battcn</groupId>
+                <artifactId>swagger-spring-boot-starter</artifactId>
+                <version>${swagger-starter-version}</version>
+            </dependency>
+            <!-- mysql 依赖 -->
+            <dependency>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <version>${mysql-connector-java-version}</version>
+                <scope>runtime</scope>
+            </dependency>
+            <!-- hutool 依赖 -->
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-all</artifactId>
+                <version>${hutool-version}</version>
+            </dependency>
+            <!-- guava 依赖 -->
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>${guava-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>de.codecentric</groupId>
+                <artifactId>spring-boot-admin-starter-server</artifactId>
+                <version>${spring-boot-admin-version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <!-- 集中定义项目所需插件 -->
+    <build>
+        <pluginManagement>
+            <plugins>
+                <!-- spring boot maven 项目打包插件 -->
+                <plugin>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-maven-plugin</artifactId>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+    <!-- 配置远程仓库 -->
+    <repositories>
+        <repository>
+            <id>spring-milestones</id>
+            <name>Spring Milestones</name>
+            <url>https://repo.spring.io/milestone</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
 </project>
